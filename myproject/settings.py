@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'emct88ho5b0kw+dts^rhz(akxyh2szojtd9xyv987mg(^jn_ev'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','emct88ho5b0kw+dts^rhz(akxyh2szojtd9xyv987mg(^jn_ev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = []
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -132,3 +133,7 @@ AUTH_USER_MODEL = 'users.CustomerUser'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID =1
 ACCOUNT_LOGOUT_ON_GET = True
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
