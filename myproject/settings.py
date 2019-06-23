@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'api',
     'users',
+    'post',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,5 @@ ACCOUNT_LOGOUT_ON_GET = True
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+
